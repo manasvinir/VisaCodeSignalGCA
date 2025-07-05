@@ -78,61 +78,29 @@ public class Main {
         List<String> result = new LinkedList<>();
         StringBuilder row = new StringBuilder();
         int length = width - 2;
+        int i = 0; //counter
 
-        //iterate through words in array
+        //iterate through words in array --> while loop condition
         //add to string
         //keep track of length of string, has to remain below length
         //at the end of each string, need to append asterisk
-        for (int i = 1; i < words.length; i++) {
-            if (row.length() <= length) {
-                if (words[i - 1].length() < length - words[i - 1].length()) {
-                    row.append(words[i - 1]);
-                    if (words[i - 1].length() + 1 < length - (words[i - 1].length() + 1)) {
-                        row.append(" ");
-                    }
-                }
 
-                //check if next word is able to be in row, if not then need to respace row
-                if (words[i].length() < length - words[i].length()) {
-                    row.append(words[i]);
-                    if (words[i].length() + 1 < length - (words[i].length() + 1)) {
-                        row.append(" ");
-                    }
-                } else {
-                    int currLen = row.length();
-                    //count how many words and the length of each of those words in current row
-                    //subtract value from length to get spaceCount
-                    //divide spaceCount by numOfWords to see how many spaces are to be added after each word
-                    String text = row.toString();
-                    String[] currRow = text.split("\\s+");
-                    String noWhitespaceString = row.toString().replaceAll("\\s", "");
-                    int spaceCount = length - noWhitespaceString.length();
-                    spaceCount /= currRow.length;
-
-                    //clears row
-                    row.setLength(0);
-                    //add spaces between each word
-                    String space = " ";
-                    for (String w : currRow) {
-                        w += space.repeat(spaceCount);
-                        row.append(w);
-                    }
-
-                    //with integer division, check if there is any leftover spaces to be added
-                    while (length-row.length() != 0) {
-                        row.append(" ");
-                    }
-                }
+        //switch from for loop to while loop
+        while (i < words.length) {
+            int lineLength = words[i].length();
+            int j = i + 1;
+            //want to keep adding words to row until there is no more space in row, determined by length
+            //do an initial loop (without adding to the row yet) to see how many words I can fit
+            while (j < words.length && lineLength + 1 + words[j].length() <= length) {
+                lineLength += words[j].length();
+                j++;
             }
-            //add asterisk
-            row.insert(0, "*");
-            row.insert(row.length()-1, "*");
+            //when out of loop, have max amount of words that can fit in row
 
-            result.add(row.toString());
+
+
+            i = j;
         }
-        String asterisk = "*";
-        result.addFirst(asterisk.repeat(width));
-        result.addLast(asterisk.repeat(width));
 
         return result;
     }
@@ -145,3 +113,59 @@ public class Main {
     }
 
 }
+
+
+/*
+
+for (int i = 0; i < words.length; i++) {
+            if (row.length() <= length) {
+                if (words[i].length() < length - words[i].length()) {
+                    row.append(words[i]);
+                    if (words[i].length() + 1 < length - (words[i].length() + 1)) {
+                        row.append(" ");
+                    }
+                }
+
+//                //check if next word is able to be in row, if not then need to respace row
+//                if (words[i].length() < length - words[i].length()) {
+//                    row.append(words[i]);
+//                    if (words[i].length() + 1 < length - (words[i].length() + 1)) {
+//                        row.append(" ");
+//                    }
+//                }
+
+            } else {
+                int currLen = row.length();
+                //count how many words and the length of each of those words in current row
+                //subtract value from length to get spaceCount
+                //divide spaceCount by numOfWords to see how many spaces are to be added after each word
+                String text = row.toString();
+                String[] currRow = text.split("\\s+");
+                String noWhitespaceString = row.toString().replaceAll("\\s", "");
+                int spaceCount = length - noWhitespaceString.length();
+                spaceCount /= currRow.length;
+
+                //clears row
+                row.setLength(0);
+                //add spaces between each word
+                String space = " ";
+                for (String w : currRow) {
+                    w += space.repeat(spaceCount);
+                    row.append(w);
+                }
+
+                //with integer division, check if there is any leftover spaces to be added
+                while (length - row.length() != 0) {
+                    row.append(" ");
+                }
+            }
+            //add asterisk
+            row.insert(0, "*");
+            row.insert(row.length()-1, "*");
+
+            result.add(row.toString());
+        }
+        String asterisk = "*";
+        result.addFirst(asterisk.repeat(width));
+        result.addLast(asterisk.repeat(width));
+ */
