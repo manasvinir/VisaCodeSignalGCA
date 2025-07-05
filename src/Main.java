@@ -90,7 +90,10 @@ public class Main {
             int j = i + 1;
             //want to keep adding words to row until there is no more space in row, determined by length
             //do an initial loop (without adding to the row yet) to see how many words I can fit
-            while (j < words.length && lineLength + 1 + words[j].length() <= innerLength) {
+            //slight alteration to space calc
+            //the length of the current word + length of the next word + (num of words - 1), rather than just adding 1 space
+            //have to dynamically add spaces for each word that is iterated through, j - i accumulates
+            while (j < words.length && lineLength + words[j].length() + (j - i) <= innerLength) {
                 lineLength += words[j].length();
                 j++;
             }
@@ -115,7 +118,9 @@ public class Main {
         }
 
         //Add border
-
+        String border = "*".repeat(width);
+        result.addFirst(border);
+        result.add(border);
 
         return result;
     }
