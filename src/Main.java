@@ -96,17 +96,17 @@ public class Main {
             }
             //when out of loop, have max amount of words that can fit in row
             //now add to row, goes from i to j because that is the span of words that fit in the current row
-            StringBuilder row = new StringBuilder();
+            //using a list of strings to hold the words is a lot easier to work with when adjusting for spaces
+            List<String> lineWords= new LinkedList<>();
             for (int k = i; k < j; k++) {
-                row.append(words[k]);
+                lineWords.add(words[k]);
             }
 
             //now have to adjust for spaces
             //need different logic when it is the last line
-            //created another function to hold adjustment logic
             //takes row, length it needs to be, and whether it is the last line
             //j is the index of the first word that does not fit on the current line!
-            String line = adjustForSpaces(row, innerLength, j == words.length);
+            String line = adjustForSpaces(lineWords, innerLength, j == words.length);
             //add asterisk at beginning and end
             result.add("*" + line + "*");
 
@@ -120,8 +120,38 @@ public class Main {
         return result;
     }
 
-    private static String adjustForSpaces(StringBuilder row, int innerLength, boolean b) {
-        return row.toString();
+    //passing in a list of strings allows for easy space concatenation
+    private static String adjustForSpaces(List<String> list, int innerLength, boolean b) {
+        int totalLen = 0;
+
+        //iterate through list
+        //add up the length of all the words on the list
+        for (String w : list) {
+            totalLen += w.length();
+        }
+
+        //subtract from innerLength
+        //divide remainder by number of words
+        int spaceCount = innerLength - totalLen;
+        spaceCount = spaceCount / list.size();
+        String space = " ";
+
+        //add after each word
+        String answer = "";
+
+        for (String w : list) {
+            answer += w;
+            answer += space.repeat(spaceCount);
+        }
+
+        int potentialExtraSpace = (innerLength - totalLen) % list.size();
+
+        if (potentialExtraSpace != 0) {
+            answer += space.repeat(potentialExtraSpace);
+        }
+
+
+        return answer;
     }
 
     //3 arrays operations
