@@ -124,6 +124,12 @@ public class Main {
     private static String adjustForSpaces(List<String> list, int innerLength, boolean b) {
         int totalLen = 0;
 
+        if (list.size() == 1 || b) {
+            String line = String.join(" ", list);
+            return line + " ".repeat(innerLength - line.length());
+        }
+
+
         //iterate through list
         //add up the length of all the words on the list
         for (String w : list) {
@@ -138,18 +144,20 @@ public class Main {
         int gaps = spaceCount / (list.size()-1);
         int extraSpace = spaceCount % (list.size()-1);
 
-        String space = " ";
 
         //add after each word
         StringBuilder answer = new StringBuilder();
 
-        for (String w : list) {
-            answer.append(w);
-            answer.append(space.repeat(gaps));
-        }
-
-        if (extraSpace != 0) {
-            answer.append(space.repeat(extraSpace));
+        for (int i = 0; i < list.size(); i++) {
+            answer.append(list.get(i));
+            //need to disperse extra space evenly
+            if (i < list.size()-1) {
+                int space = gaps;
+                if (i < extraSpace) {
+                    space += 1;
+                }
+                answer.append(" ".repeat(space));
+            }
         }
 
 
