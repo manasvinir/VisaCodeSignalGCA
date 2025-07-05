@@ -27,17 +27,17 @@ public class Main {
                 {1, 4}
         };
 
-        //answer to this testcase: 3
-        //1+4 = 5, 2+3 = 5
+        //answer to this testcase: 2 --> sum can only come from both arrays, not just one
+        //1+4 = 5
         //secondary = {1,5}
         //1+3 = 4
-        //result = 3
+        //result = 2
         int prob4 = problem4(primary, secondary, operations);
 
+        System.out.println(prob2);
+        System.out.println(prob3);
         System.out.println(prob4);
     }
-
-
 
     //adding value of 2 strings
     public static String problem2(String a, String b) {
@@ -58,8 +58,6 @@ public class Main {
         while (b.length() < maxLength) {
             b = "0" + b;
         }
-//        System.out.println(a);
-//        System.out.println(b);
 
         //iterate through loop in reverse
         //take char at pos i, convert into ints, add together, convert into string, append to result
@@ -82,18 +80,11 @@ public class Main {
         int innerLength = width - 2;
         int i = 0; //counter
 
-        //iterate through words in array --> while loop condition
-        //add to string
-        //keep track of length of string, has to remain below length
-        //at the end of each string, need to append asterisk
-
-        //switch from for loop to while loop
         while (i < words.length) {
             int lineLength = words[i].length();
             int j = i + 1;
             //want to keep adding words to row until there is no more space in row, determined by length
             //do an initial loop (without adding to the row yet) to see how many words I can fit
-            //slight alteration to space calc
             //the length of the current word + length of the next word + (num of words - 1), rather than just adding 1 space
             //have to dynamically add spaces for each word that is iterated through, j - i accumulates
             while (j < words.length && lineLength + words[j].length() + (j - i) <= innerLength) {
@@ -101,7 +92,7 @@ public class Main {
                 j++;
             }
             //when out of loop, have max amount of words that can fit in row
-            //now add to row, goes from i to j because that is the span of words that fit in the current row
+            //now add to row, goes from i to j-1 because that is the span of words that fit in the current row
             //using a list of strings to hold the words is a lot easier to work with when adjusting for spaces
             List<String> lineWords= new LinkedList<>();
             for (int k = i; k < j; k++) {
@@ -137,7 +128,6 @@ public class Main {
             return line + " ".repeat(innerLength - line.length());
         }
 
-
         //iterate through list
         //add up the length of all the words on the list
         for (String w : list) {
@@ -147,11 +137,10 @@ public class Main {
         //subtract from innerLength
         //divide remainder by number of words
         int spaceCount = innerLength - totalLen;
-        //the amount of words - 1 because that is the space between the words
+        //the amount of words - 1 because that is the count of the space placement between the words
         //need to account for even space and extra space
         int gaps = spaceCount / (list.size()-1);
         int extraSpace = spaceCount % (list.size()-1);
-
 
         //add after each word
         StringBuilder answer = new StringBuilder();
@@ -168,7 +157,6 @@ public class Main {
             }
         }
 
-
         return answer.toString();
     }
 
@@ -178,8 +166,6 @@ public class Main {
 
         //iterate through operation
         //first branching: if operations is 0 or 1
-
-
         for (int[] op : operations) {
             //if 0, replace value of secondary at index
             if (op[0] == 0) {
@@ -187,13 +173,9 @@ public class Main {
             }
             //if 1, check for sum of ints from both arrays
             else if (op[0] == 1) {
-
                 result += countOfSumOfInts(op[1], primary, secondary);
-
             }
-
         }
-
 
         return result;
     }
@@ -201,21 +183,18 @@ public class Main {
     private static int countOfSumOfInts(int target, int[] primary, int[] secondary) {
         //create hashset to hold all values from priamry and secondary
         int result = 0;
-        HashSet<Integer> allNum = new HashSet<>();
-        for (int num : primary) {
-            allNum.add(num);
-        }
+        Map<Integer, Integer> sec = new HashMap<>();
+
         for (int num : secondary) {
-            allNum.add(num);
+            sec.put(num, sec.getOrDefault(num, 0) + 1);
         }
 
-        int i = 0;
         //check for what 2 numbers == op[1]
-        for (int num : allNum) {
+        for (int num : primary) {
             int complement = target - num;
             //increment result when known
-            if (allNum.contains(complement) && complement != num) {
-                result++;
+            if (sec.getOrDefault(complement, 0) != 0) {
+                result += sec.get(complement);
             }
         }
 
