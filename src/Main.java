@@ -31,7 +31,7 @@ public class Main {
         //answer to this testcase:
         int[] prob4 = problem4(primary, secondary, operations);
 
-//        System.out.println(prob2);
+        System.out.println(prob3);
     }
 
 
@@ -109,20 +109,32 @@ public class Main {
                     int spaceCount = length - noWhitespaceString.length();
                     spaceCount /= currRow.length;
 
+                    //clears row
+                    row.setLength(0);
+                    //add spaces between each word
+                    String space = " ";
+                    for (String w : currRow) {
+                        w += space.repeat(spaceCount);
+                        row.append(w);
+                    }
 
-
-
+                    //with integer division, check if there is any leftover spaces to be added
+                    while (length-row.length() != 0) {
+                        row.append(" ");
+                    }
                 }
-
-
             }
-
-
             //add asterisk
+            row.insert(0, "*");
+            row.insert(row.length()-1, "*");
+
+            result.add(row.toString());
         }
+        String asterisk = "*";
+        result.addFirst(asterisk.repeat(width));
+        result.addLast(asterisk.repeat(width));
 
         return result;
-
     }
 
     //3 arrays operations
