@@ -39,8 +39,12 @@ public class Main {
         //was blanking on how to do this easily
         StringBuilder aBuilder = new StringBuilder(a);
         StringBuilder bBuilder = new StringBuilder(b);
-        while(a.length() < maxLength || b.length() < maxLength) {
+
+        //first attempt, while loop was not working right, need to split appending of strings
+        while(a.length() < maxLength) {
             a = "0" + a;
+        }
+        while (b.length() < maxLength) {
             b = "0" + b;
         }
         System.out.println(a);
