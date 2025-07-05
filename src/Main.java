@@ -1,5 +1,4 @@
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,10 +27,14 @@ public class Main {
                 {1, 4}
         };
 
-        //answer to this testcase:
-        int[] prob4 = problem4(primary, secondary, operations);
+        //answer to this testcase: 3
+        //1+4 = 5, 2+3 = 5
+        //secondary = {1,5}
+        //1+3 = 4
+        //result = 3
+        int prob4 = problem4(primary, secondary, operations);
 
-        System.out.println(prob3);
+//        System.out.println(prob4);
     }
 
 
@@ -170,66 +173,44 @@ public class Main {
     }
 
     //3 arrays operations
-    public static int[] problem4(int[] primary, int[] secondary, int[][] operations) {
-        int[] answer = new int[5];
+    public static int problem4(int[] primary, int[] secondary, int[][] operations) {
+        int result = 0;
 
-        return answer;
+        //iterate through operation
+        //first branching: if operations is 0 or 1
+
+
+        for (int[] op : operations) {
+            //if 0, replace value of secondary at index
+            if (op[0] == 0) {
+                secondary[op[1]] = op[2];
+            }
+            //if 1, check for sum of ints from both arrays
+            else if (op[0] == 1) {
+                //create hashset to hold all values from priamry and secondary
+                //check for what 2 numbers == op[1]
+                //increment result when known
+                result += sumOfInts(op[1], primary, secondary);
+
+            }
+
+        }
+
+
+        return result;
+    }
+
+    private static int sumOfInts(int target, int[] primary, int[] secondary) {
+
+        HashSet<Integer> allNum = new HashSet<>();
+        for (int num : primary) {
+            allNum.add(num);
+        }
+        for (int num : secondary) {
+            allNum.add(num);
+        }
+
+        return 0;
     }
 
 }
-
-
-/*
-
-for (int i = 0; i < words.length; i++) {
-            if (row.length() <= length) {
-                if (words[i].length() < length - words[i].length()) {
-                    row.append(words[i]);
-                    if (words[i].length() + 1 < length - (words[i].length() + 1)) {
-                        row.append(" ");
-                    }
-                }
-
-//                //check if next word is able to be in row, if not then need to respace row
-//                if (words[i].length() < length - words[i].length()) {
-//                    row.append(words[i]);
-//                    if (words[i].length() + 1 < length - (words[i].length() + 1)) {
-//                        row.append(" ");
-//                    }
-//                }
-
-            } else {
-                int currLen = row.length();
-                //count how many words and the length of each of those words in current row
-                //subtract value from length to get spaceCount
-                //divide spaceCount by numOfWords to see how many spaces are to be added after each word
-                String text = row.toString();
-                String[] currRow = text.split("\\s+");
-                String noWhitespaceString = row.toString().replaceAll("\\s", "");
-                int spaceCount = length - noWhitespaceString.length();
-                spaceCount /= currRow.length;
-
-                //clears row
-                row.setLength(0);
-                //add spaces between each word
-                String space = " ";
-                for (String w : currRow) {
-                    w += space.repeat(spaceCount);
-                    row.append(w);
-                }
-
-                //with integer division, check if there is any leftover spaces to be added
-                while (length - row.length() != 0) {
-                    row.append(" ");
-                }
-            }
-            //add asterisk
-            row.insert(0, "*");
-            row.insert(row.length()-1, "*");
-
-            result.add(row.toString());
-        }
-        String asterisk = "*";
-        result.addFirst(asterisk.repeat(width));
-        result.addLast(asterisk.repeat(width));
- */
