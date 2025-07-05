@@ -133,25 +133,27 @@ public class Main {
         //subtract from innerLength
         //divide remainder by number of words
         int spaceCount = innerLength - totalLen;
-        spaceCount = spaceCount / list.size();
+        //the amount of words - 1 because that is the space between the words
+        //need to account for even space and extra space
+        int gaps = spaceCount / (list.size()-1);
+        int extraSpace = spaceCount % (list.size()-1);
+
         String space = " ";
 
         //add after each word
-        String answer = "";
+        StringBuilder answer = new StringBuilder();
 
         for (String w : list) {
-            answer += w;
-            answer += space.repeat(spaceCount);
+            answer.append(w);
+            answer.append(space.repeat(gaps));
         }
 
-        int potentialExtraSpace = (innerLength - totalLen) % list.size();
-
-        if (potentialExtraSpace != 0) {
-            answer += space.repeat(potentialExtraSpace);
+        if (extraSpace != 0) {
+            answer.append(space.repeat(extraSpace));
         }
 
 
-        return answer;
+        return answer.toString();
     }
 
     //3 arrays operations
