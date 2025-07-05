@@ -34,7 +34,7 @@ public class Main {
         //result = 3
         int prob4 = problem4(primary, secondary, operations);
 
-//        System.out.println(prob4);
+        System.out.println(prob4);
     }
 
 
@@ -187,10 +187,8 @@ public class Main {
             }
             //if 1, check for sum of ints from both arrays
             else if (op[0] == 1) {
-                //create hashset to hold all values from priamry and secondary
-                //check for what 2 numbers == op[1]
-                //increment result when known
-                result += sumOfInts(op[1], primary, secondary);
+
+                result += countOfSumOfInts(op[1], primary, secondary);
 
             }
 
@@ -200,8 +198,9 @@ public class Main {
         return result;
     }
 
-    private static int sumOfInts(int target, int[] primary, int[] secondary) {
-
+    private static int countOfSumOfInts(int target, int[] primary, int[] secondary) {
+        //create hashset to hold all values from priamry and secondary
+        int result = 0;
         HashSet<Integer> allNum = new HashSet<>();
         for (int num : primary) {
             allNum.add(num);
@@ -210,7 +209,17 @@ public class Main {
             allNum.add(num);
         }
 
-        return 0;
+        int i = 0;
+        //check for what 2 numbers == op[1]
+        for (int num : allNum) {
+            int complement = target - num;
+            //increment result when known
+            if (allNum.contains(complement) && complement != num) {
+                result++;
+            }
+        }
+
+        return result;
     }
 
 }
