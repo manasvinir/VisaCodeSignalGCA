@@ -76,8 +76,7 @@ public class Main {
         //need to ensure that the length of each row is the width passed in
         //need to accommodate for asterisk placement as well
         List<String> result = new LinkedList<>();
-        StringBuilder row = new StringBuilder();
-        int length = width - 2;
+        int innerLength = width - 2;
         int i = 0; //counter
 
         //iterate through words in array --> while loop condition
@@ -91,18 +90,38 @@ public class Main {
             int j = i + 1;
             //want to keep adding words to row until there is no more space in row, determined by length
             //do an initial loop (without adding to the row yet) to see how many words I can fit
-            while (j < words.length && lineLength + 1 + words[j].length() <= length) {
+            while (j < words.length && lineLength + 1 + words[j].length() <= innerLength) {
                 lineLength += words[j].length();
                 j++;
             }
             //when out of loop, have max amount of words that can fit in row
+            //now add to row, goes from i to j because that is the span of words that fit in the current row
+            StringBuilder row = new StringBuilder();
+            for (int k = i; k < j; k++) {
+                row.append(words[k]);
+            }
 
+            //now have to adjust for spaces
+            //need different logic when it is the last line
+            //created another function to hold adjustment logic
+            //takes row, length it needs to be, and whether it is the last line
+            //j is the index of the first word that does not fit on the current line!
+            String line = adjustForSpaces(row, innerLength, j == words.length);
+            //add asterisk at beginning and end
+            result.add("*" + line + "*");
 
-
+            //moves counter along!
             i = j;
         }
 
+        //Add border
+
+
         return result;
+    }
+
+    private static String adjustForSpaces(StringBuilder row, int innerLength, boolean b) {
+        return row.toString();
     }
 
     //3 arrays operations
