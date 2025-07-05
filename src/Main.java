@@ -6,6 +6,17 @@ public class Main {
         //answer to testcase should be 1115
         String prob2 = problem2("72", "143");
 
+        /* answer to testcase:
+        [
+            "********************",
+            "*I   am   deeply   *",
+            "*excited    about  *",
+            "*potentially moving*",
+            "*forward in Visa's *",
+            "*interview process!*",
+            "********************"
+        ]
+         */
         List<String> prob3 = problem3(new String[] {"I", "am", "deeply", "excited", "about", "potentially", "moving",
                                                     "forward", "in", "Visa's", "interview", "process!"}, 20);
 
@@ -17,9 +28,10 @@ public class Main {
                 {1, 4}
         };
 
+        //answer to this testcase:
         int[] prob4 = problem4(primary, secondary, operations);
 
-        System.out.println(prob2);
+//        System.out.println(prob2);
     }
 
 
@@ -30,15 +42,11 @@ public class Main {
 
         //I was not iterating and appending through the strings properly in my initial case
         //need to find the string that is longer
-        int lenA = a.length();
-        int lenB = b.length();
-        int maxLength = Math.max(lenA, lenB);
+        int maxLength = Math.max(a.length(), b.length());
 
         //rather than finding the specific string that is shorter and padding it with 0s,
         //can just do it for both and make sure logic excludes the longer string (faster)
         //was blanking on how to do this easily
-        StringBuilder aBuilder = new StringBuilder(a);
-        StringBuilder bBuilder = new StringBuilder(b);
 
         //first attempt, while loop was not working right, need to split appending of strings
         while(a.length() < maxLength) {
@@ -47,8 +55,8 @@ public class Main {
         while (b.length() < maxLength) {
             b = "0" + b;
         }
-        System.out.println(a);
-        System.out.println(b);
+//        System.out.println(a);
+//        System.out.println(b);
 
         //iterate through loop in reverse
         //take char at pos i, convert into ints, add together, convert into string, append to result
@@ -65,7 +73,53 @@ public class Main {
 
     //adjusting paragraph formatting with width
     public static List<String> problem3(String[] words, int width) {
+        //need to ensure that the length of each row is the width passed in
+        //need to accommodate for asterisk placement as well
         List<String> result = new LinkedList<>();
+        StringBuilder row = new StringBuilder();
+        int length = width - 2;
+
+        //iterate through words in array
+        //add to string
+        //keep track of length of string, has to remain below length
+        //at the end of each string, need to append asterisk
+        for (int i = 1; i < words.length; i++) {
+            if (row.length() <= length) {
+                if (words[i - 1].length() < length - words[i - 1].length()) {
+                    row.append(words[i - 1]);
+                    if (words[i - 1].length() + 1 < length - (words[i - 1].length() + 1)) {
+                        row.append(" ");
+                    }
+                }
+
+                //check if next word is able to be in row, if not then need to respace row
+                if (words[i].length() < length - words[i].length()) {
+                    row.append(words[i]);
+                    if (words[i].length() + 1 < length - (words[i].length() + 1)) {
+                        row.append(" ");
+                    }
+                } else {
+                    int currLen = row.length();
+                    //count how many words and the length of each of those words in current row
+                    //subtract value from length to get spaceCount
+                    //divide spaceCount by numOfWords to see how many spaces are to be added after each word
+                    String text = row.toString();
+                    String[] currRow = text.split("\\s+");
+                    String noWhitespaceString = row.toString().replaceAll("\\s", "");
+                    int spaceCount = length - noWhitespaceString.length();
+                    spaceCount /= currRow.length;
+
+
+
+
+                }
+
+
+            }
+
+
+            //add asterisk
+        }
 
         return result;
 
